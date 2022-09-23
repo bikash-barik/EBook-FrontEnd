@@ -33,9 +33,10 @@ const useTreeItemStyles = makeStyles((theme) => ({
       color: "",
     },
     "&:focus > $content $label, &:hover > $content $label, &$selected > $content $label":
-    {
-      backgroundColor: "transparent",
-    },
+      {
+        backgroundColor: "transparent",
+      },
+      
   },
   content: {
     color: theme.palette.text.secondary,
@@ -77,7 +78,7 @@ function StyledTreeItem(props) {
   const history = useHistory();
   const classes = useTreeItemStyles();
   const dispatch = useDispatch();
-  const IsSuperAdmin = sessionStorage.getItem('isSuperAdmin')
+  const IsSuperAdmin = sessionStorage.getItem("isSuperAdmin");
   // const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
   const {
     labelText,
@@ -117,7 +118,7 @@ function StyledTreeItem(props) {
               {labelInfo}
             </Typography>
             {/* {IsSuperAdmin == "true" && */}
-            {(admin === 1 || createflag === 1) &&
+            {(admin === 1 || createflag === 1) && (
               <>
                 {mainheader && (
                   <AddIcon
@@ -137,7 +138,7 @@ function StyledTreeItem(props) {
                   />
                 )}
               </>
-            }
+            )}
             {/* {sub && (
               <Delete
                 color="inherit"
@@ -195,6 +196,21 @@ const useStyles = makeStyles({
   },
 });
 
+
+
+const renderTree = (nodes) => (
+  <TreeItem key={nodes?.Label} nodeId={nodes?.Label} label={nodes?.Label} style={{ color: "white" }} icon={<Label style={{color:'black', width:'100'}}/>}>
+    {nodes?.SubMenu.map((fn, key) => {
+      return (
+        <StyledTreeItem key={fn?.Feature_Name} nodeId={key+fn?.Feature_Name} labelText={fn?.Feature_Name} labelIcon={ViewModuleIcon} style={{color: "white" }}></StyledTreeItem>
+      );
+    })}
+    {Array?.isArray(nodes?.Sub_Objects_List)
+      ? nodes?.Sub_Objects_List.map((node) => renderTree(node))
+      : null}
+  </TreeItem>
+);
+
 export default function GmailTreeView({
   menuList,
   dropdown,
@@ -207,16 +223,16 @@ export default function GmailTreeView({
   const classes = useStyles();
   // const [lable_dropdown, setLabledropdown] = useState('')
   // const [lable_dropdownid, setLabledropdownid] = useState('')
-  console.log('menulist', menuList)
-  console.log('dropdown', dropdown)
+  console.log("menulist", menuList[0]);
+  // console.log('Menu ', nodes)
+  // console.log('dropdown', dropdown)
   const dispatch = useDispatch();
   let history = useHistory();
   const MenuSelected = (value, lable) => {
-      dispatch(ActionMenu.ActionMenu(value));
-      dispatch(ActionMenu.lableselect(lable));
-      
-      // dispatch(ActionMenu.ActionObjectMenu(value));
-   
+    dispatch(ActionMenu.ActionMenu(value));
+    dispatch(ActionMenu.lableselect(lable));
+
+    // dispatch(ActionMenu.ActionObjectMenu(value));
   };
 
   // console.log(menuList, "frdtdrtt")
@@ -228,66 +244,54 @@ export default function GmailTreeView({
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
+      sx={{ height: 264, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
-      <>
-        {menuList?.length >= 0 &&
+      {menuList?.length >= 0 && (
           <>
-            {menuList?.map((Data, Index) => {
-              if (Data) {
+            {/* <StyledTreeItem
+              nodeId={menuList[0]?.Label}
+              labelText={menuList[0]?.Label}
+              labelIcon={Label}
+              key={menuList[0]?.Label}
+              data={menuList[0]}
+              dropdown={dropdown}
+              style={{ color: "white" }}
+              mainheader={true}
+              // admin={admin}
+              // createflag={createflag}
+            >
+              {menuList[0].SubMenu.map((fn, key) => {
                 return (
-                  <StyledTreeItem
-                    nodeId={Index}
-                    labelText={Data?.Label}
-                    labelIcon={Label}
-                    key={Index}
-                    data={Data}
-                    dropdown={dropdown}
-                    style={{ color: "white" }}
-                    mainheader={true}
-                    admin={admin}
-                    createflag={createflag}
-                  >
-                    {Data?.SubMenu?.map((data, index) => {
+                  <>
+                    <StyledTreeItem
+                      style={{ color: "white" }}
+                      // sub={true}
+                      // onClick={() => {
+                      //   MenuSelected(data?.Feature_Name, Data?.Label);
 
-                      return (
-                        <StyledTreeItem
-                          style={{ color: "white" }}
-                          sub={true}
-                          onClick={() => {
-                            // dispatch(ActionMenu.PreviewFeature())
-                            // history.push("/dashboard");
-                            // lable_dropdown(Data?.Label);
-                            // lable_dropdownid(data.Feature_Id);
-                            // setLabledropdown(Data?.Label);
-                            // setLabledropdownid(data.Feature_Name);
-                            MenuSelected(data?.Feature_Name, Data?.Label);
-
-
-                            history.push("/PreviewCode");
-                            // history.push({
-                            //   pathname: `/edit/${detaildata.Feature_Id}`,
-                            //   data: { detaildata },
-
-                            // })
-
-                          }}
-                          nodeId={"S" + Index + index}
-                          labelText={data?.Feature_Name}
-                          labelIcon={ViewModuleIcon}
-                          deleteitem={deleteitem}
-                          datavalue={data}
-                          confirmDialog={confirmDialog}
-                          setConfirmDialog={setConfirmDialog}
-                        // data={data}
-                        />
-                      );
-                    })}
-                  </StyledTreeItem>
+                      //   history.push("/PreviewCode");
+                      // }}
+                      nodeId={menuList[0]?.Label+key}
+                      labelText={fn?.Feature_Name}
+                      labelIcon={ViewModuleIcon}
+                      // deleteitem={deleteitem}
+                      // datavalue={fn}
+                      confirmDialog={confirmDialog}
+                      setConfirmDialog={setConfirmDialog}
+                    />
+                  </>
                 );
-              }
-            })}
-          </>}
-      </>
+              })}
+              {Array.isArray(menuList[0].Sub_Objects_List)
+                ? menuList[0].Sub_Objects_List.map((node) => renderTree(node))
+                : null}
+            </StyledTreeItem> */}
+            {renderTree(menuList[0])}
+          </>
+        )}
+     
+      {/* {renderTree(menuList[0])} */}
+      
     </TreeView>
   );
 }

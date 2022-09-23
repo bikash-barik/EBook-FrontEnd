@@ -24,6 +24,7 @@ import UseradminFunction from '../Features/Modules/useradminpage'
 import ResetPasword from '../Auth/ResetPassword';
 import { useHistory } from 'react-router-dom';
 import FeatureApprovals from '../Features/Modules/FeatureApprovals'
+import tree from '../Components/treeview3'
 
 
 
@@ -46,6 +47,7 @@ const Routing = () => {
                 <Route path="/forgotpassword" component={ForgotPasword} />
                 <Route path="/resendemail" component={ResendEmail} />
                 <Route path="/resetpassword" component={ResetPasword} />
+                <Route path="/tree" component={tree} />
                 {/* <Route path="*" component={PageNotFound} /> */}
                 <MenuAppBar>
                     <ProtectedRoute path="/dashboard" component={Home} />
