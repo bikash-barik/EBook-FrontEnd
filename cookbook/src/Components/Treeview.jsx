@@ -221,11 +221,6 @@ export default function GmailTreeView({
   createflag,
 }) {
   const classes = useStyles();
-  // const [lable_dropdown, setLabledropdown] = useState('')
-  // const [lable_dropdownid, setLabledropdownid] = useState('')
-  console.log("menulist", menuList[0]);
-  // console.log('Menu ', nodes)
-  // console.log('dropdown', dropdown)
   const dispatch = useDispatch();
   let history = useHistory();
   const MenuSelected = (value, lable) => {
@@ -235,7 +230,6 @@ export default function GmailTreeView({
     // dispatch(ActionMenu.ActionObjectMenu(value));
   };
 
-  // console.log(menuList, "frdtdrtt")
   return (
     <TreeView
       className={classes.root}
@@ -246,52 +240,14 @@ export default function GmailTreeView({
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ height: 264, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
-      {menuList?.length >= 0 && (
+      {menuList?.length >= 1 && (
           <>
-            {/* <StyledTreeItem
-              nodeId={menuList[0]?.Label}
-              labelText={menuList[0]?.Label}
-              labelIcon={Label}
-              key={menuList[0]?.Label}
-              data={menuList[0]}
-              dropdown={dropdown}
-              style={{ color: "white" }}
-              mainheader={true}
-              // admin={admin}
-              // createflag={createflag}
-            >
-              {menuList[0].SubMenu.map((fn, key) => {
-                return (
-                  <>
-                    <StyledTreeItem
-                      style={{ color: "white" }}
-                      // sub={true}
-                      // onClick={() => {
-                      //   MenuSelected(data?.Feature_Name, Data?.Label);
-
-                      //   history.push("/PreviewCode");
-                      // }}
-                      nodeId={menuList[0]?.Label+key}
-                      labelText={fn?.Feature_Name}
-                      labelIcon={ViewModuleIcon}
-                      // deleteitem={deleteitem}
-                      // datavalue={fn}
-                      confirmDialog={confirmDialog}
-                      setConfirmDialog={setConfirmDialog}
-                    />
-                  </>
-                );
-              })}
-              {Array.isArray(menuList[0].Sub_Objects_List)
-                ? menuList[0].Sub_Objects_List.map((node) => renderTree(node))
-                : null}
-            </StyledTreeItem> */}
+            
             {renderTree(menuList[0])}
           </>
         )}
      
-      {/* {renderTree(menuList[0])} */}
-      
+     
     </TreeView>
   );
 }

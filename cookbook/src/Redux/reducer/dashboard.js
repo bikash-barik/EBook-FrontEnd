@@ -11,62 +11,7 @@ const initialState = {
   editpreview: false,
   details: {},
   editPreviewdetails: {},
-  ITEMlIST: [{
-    Label: "PROCEDURE",
-    SubMenu: [{ Feature_Name: "fp1" }, { Feature_Name: "fp2" }],
-    Sub_Objects_List: [
-      {
-        Label: "Sub_PROCEDURE_1",
-        SubMenu: [{ Feature_Name: "sub_fp1" }, { Feature_Name: "sub_fp2" }],
-        Sub_Objects_List: [
-          {
-            Label: "Sub_PROC_1",
-            SubMenu: [
-              { Feature_Name: "sub_fp1_s" },
-              { Feature_Name: "sub_fp2_s" },
-            ],
-            Sub_Objects_List: [
-              {
-                Label: "Sub_PROC_11",
-                SubMenu: [
-                  { Feature_Name: "sub_fp11_s" },
-                  { Feature_Name: "sub_fp21_s" },
-                ],
-                Sub_Objects_List: [],
-                Admin_Flag: 1,
-              },
-            ],
-            Admin_Flag: 1,
-          },
-          {
-            Label: "Sub_PROC_2",
-            SubMenu: [
-              { Feature_Name: "sub_fp3_s" },
-              { Feature_Name: "sub_fp4_s" },
-            ],
-            Sub_Objects_List: [],
-            Admin_Flag: 1,
-          },
-        ],
-        Admin_Flag: 1,
-      },
-
-      {
-        Label: "Sub_PROCEDURE_2",
-        SubMenu: [{ Feature_Name: "sub_fp5" }, { Feature_Name: "sub_fp6" }],
-        Sub_Objects_List: [],
-        Admin_Flag: 1,
-      },
-
-      {
-        Label: "Sub_PROCEDURE_3",
-        SubMenu: [{ Feature_Name: "sub_fp7" }, { Feature_Name: "sub_fp8" }],
-        Sub_Objects_List: [],
-        Admin_Flag: 1,
-      },
-    ],
-    Admin_Flag: 1,
-  }],
+  ITEMlIST: [],
   DropDownValues: [],
   admin: 0,
   lable: null,

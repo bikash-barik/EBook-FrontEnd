@@ -60,11 +60,11 @@ const Routing = () => {
                     {/* <ProtectedRoute exact path="/edit/:id" component={EditFeature} /> */}
                     {/* <Route path="*" component={PageNotFound} /> */}
                     
-                    <ProtectedRoute path="/Request" component={Request} />
-                    <ProtectedRoute path="/superadmin" component={SuperadminFunction} />
-                    <ProtectedRoute path="/AdminAccesslist" component={AdminAccesslist} />
-                    <ProtectedRoute path="/FeatureApprovals" component={FeatureApprovals} />
-                    <ProtectedRoute path="/useradmin" component={UseradminFunction} />
+                    <ProtectedRoute exact path="/Request" component={Request} />
+                    <ProtectedRoute exact path="/superadmin" component={SuperadminFunction} />
+                    <ProtectedRoute exact path="/AdminAccesslist" component={AdminAccesslist} />
+                    <ProtectedRoute exact path="/FeatureApprovals" component={FeatureApprovals} />
+                    <ProtectedRoute exact path="/useradmin" component={UseradminFunction} />
                     
                 </MenuAppBar>
 

@@ -575,8 +575,9 @@ export default function ClippedDrawer({ children }) {
     
   };
   const handlefeature = (v) => {
+    console.log(v, ' =======')
     dispatch(ActionMenu.selectedMenutlist(v))
-    console.log(v," ===========")
+    // console.log(v," ===========")
   };
 
   const handlerequestMenus = () => {
