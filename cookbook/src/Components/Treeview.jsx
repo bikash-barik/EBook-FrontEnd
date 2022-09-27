@@ -117,49 +117,7 @@ function StyledTreeItem(props) {
             >
               {labelInfo}
             </Typography>
-            {/* {IsSuperAdmin == "true" && */}
-            {(admin === 1 || createflag === 1) && (
-              <>
-                {mainheader && (
-                  <AddIcon
-                    color="inherit"
-                    className={classes.labelIcon}
-                    style={{ color: "#0BCD19" }}
-                    onClick={
-                      () =>
-                        history.push({
-                          pathname: "/Create",
-                          state: {
-                            data: { ...data, type: props.dropdown?.name },
-                          },
-                        })
-                      // dispatch(ActionMenu.CreateFeature({data: { ...data, type: props.dropdown?.name }, id:'createFeature'}))
-                    }
-                  />
-                )}
-              </>
-            )}
-            {/* {sub && (
-              <Delete
-                color="inherit"
-                style={{ color: '#FCBFD7' }}
-                className={classes.labelIcon}
-
-                // onClick={() => deleteitem(datavalue)}
-                onClick={() => {
-                  setConfirmDialog({
-                    isOpen: true,
-                    title: 'Are you sure to delete this record?',
-                    // subTitle: "You can't undo this operation",
-                    onConfirm: () => { deleteitem(datavalue) }
-                  })
-                  // {setConfirmDialog({
-                  //   isOpen: false})
-                  // }
-                }}
-              />
-            )} */}
-            {sub}
+            
           </div>
         }
         style={{
@@ -199,14 +157,17 @@ const useStyles = makeStyles({
 
 
 const renderTree = (nodes) => (
-  <TreeItem key={nodes?.Label} nodeId={nodes?.Label} label={nodes?.Label} style={{ color: "white" }} icon={<Label style={{color:'black', width:'100'}}/>}>
-    {nodes?.SubMenu.map((fn, key) => {
+  <TreeItem key={nodes?.Object_Type} nodeId={nodes?.Object_Type} label={nodes?.Object_Type} style={{ color: "white" }} icon={<Label style={{color:'black', width:'100'}}/>}
+  
+  >
+    {/* <AddIcon style={{ color: "#0BCD19" }}/> */}
+    {nodes?.Sub_Menu.map((fn, key) => {
       return (
         <StyledTreeItem key={fn?.Feature_Name} nodeId={key+fn?.Feature_Name} labelText={fn?.Feature_Name} labelIcon={ViewModuleIcon} style={{color: "white" }}></StyledTreeItem>
       );
     })}
-    {Array?.isArray(nodes?.Sub_Objects_List)
-      ? nodes?.Sub_Objects_List.map((node) => renderTree(node))
+    {Array?.isArray(nodes?.Sub_Objects)
+      ? nodes?.Sub_Objects.map((node) => renderTree(node))
       : null}
   </TreeItem>
 );

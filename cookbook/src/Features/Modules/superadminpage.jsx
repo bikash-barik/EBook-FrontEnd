@@ -175,9 +175,6 @@ export default function SuperadminFunction() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const classestable = useStylestable();
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
-  const [isData, setIsData] = useState(true);
   const {
     details,
     createFeature,
@@ -187,268 +184,24 @@ export default function SuperadminFunction() {
     headerValue,
     project_version,
   } = useSelector((state) => state.dashboardReducer);
-  const [migtypeid, setMigtypeid] = useState(headerValue?.title);
-  const [objtype, setObjtype] = useState("Procedure");
-  const [Migtype, setMigtype] = useState("");
-  const [fnnames, setFnnames] = useState([]);
-  const [data, setData] = useState([]);
-  const [selecetd1, setSelected1] = useState(false);
-  const [selecetd, setSelected] = useState(false);
-  const [openAlert, setOpenAlert] = useState(false);
-  // const [openAlert1, setOpenAlert1] = useState(false);
-  const [open2, setOpen2] = useState(false);
-
-  const [migtype_create, setMigtype_create] = useState();
-  const [objtype_create, setObjtype_create] = useState();
+ 
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-  const [migtypelist, setMigtypeslist] = useState([]);
-  const [objtypelist, setObjtypeslist] = useState([]);
-  const [updatemiglist, setUpdatemiglist] = useState(false);
-  const [updateobjlist, setUpdateobjlist] = useState(false);
-  const [userslist, setUserslist] = useState([]);
-  const [adminlistdata, setadminlistdata] = useState([]);
-  const [superadminlist, setsuperadminlist] = useState([]);
-
-  const [useremail, setuseremail] = useState();
-  // const [superuseremail, setsuperuseremail] = useState()
-  const [updateAdminTable, setUpdateAdminTable] = useState(false);
-  const [updateSuperAdminTable, setUpdateSuperAdminTable] = useState(false);
-  const [updatermSuperAdminTable, setUpdatermSuperAdminTable] = useState(false);
-  const [updateaccessAdminTable, setupdateaccessAdminTable] = useState(false);
-  const [rmitememail, setrmitemsemail] = useState();
-  const [rmitemmig, setrmitemsmig] = useState();
-  const [rm_miglist, setrm_miglist] = useState([]);
-  const [objectTypeAdmin, setObjectTypeAdmin] = useState();
-  const [rm_objectslist, setrm_objectslist] = useState([]);
-  const [objecttype_rm, setObjecttype_rm] = useState();
-  // const [proj_vers_list, setProj_vers_list] = useState([])
-  const [project_max_limit, setProject_max_limit] = useState();
-  const [feature_max_limit, setFeautre_max_limit] = useState();
-  const [proj_vers_list, setProj_vers_list] = useState([]);
-  const [useradmin_list, setUseradmin_list] = useState([]);
-  const [useradmin_tableupdate, setuseradmin_tableupdate] = useState(false);
-  const [isUserAdminData, setIsUserAdminData] = useState(false);
-  const [deploymig, setDeploymig] = useState();
-  const [select_prj_versionitem, setSelect_prj_versionitem] = useState();
-  const [new_prj_versionitem, setNew_prj_versionitem] = useState();
 
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: "",
     subTitle: "",
   });
-  const [newMigtype, setNewMigtype] = useState();
-  const [isdeployData, setIsDeploydata] = useState(false);
-  const [deployeddata, setDeployeddata] = useState([]);
-  const [deploy_update, setDeploy_update] = useState(false);
-
+  
   let history = useHistory();
-
-  // console.log(headerValue.title)
-  const handleuseremail = (v) => {
-    setSelected1(true);
-    setuseremail(v?.email);
-  };
-
-  const handleuseremail1 = (v) => {
-    setuseremail(v?.email);
-  };
-
-  // const handleuseremail1 = (v) => {
-
-  // }
-
-  const handleobjecttype = (v) => {
-    setSelected(true);
-    setObjectTypeAdmin(v?.Object_Type);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpenAlert(false);
-  };
 
   return (
     <Box style={{ width: "100%" }}>
-      <Box py={1} px={1}>
-        <Grid container direction="row" justifyContent="center">
-          <Grid item>
-            <Typography variant="h6">Super Admin Creation</Typography>
-          </Grid>
-        </Grid>
-      </Box>
-      <Box py={2} px={2}>
-        <Grid container direction="row" justifyContent="center" spacing={1}>
-          <Grid item>
-            <StyledAutocomplete
-              size="small"
-              id="grouped-demo"
-              className={classes.inputRoottype}
-              options={userslist}
-              groupBy={""}
-              getOptionLabel={(option) => option.email}
-              style={{ width: 300, marginLeft: 100 }}
-              onChange={(e, v) => handleuseremail(v)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="username/email"
-                  variant="outlined"
-                  InputLabelProps={{
-                    className: classes.floatingLabelFocusStyle,
-                    shrink: true,
-                  }}
-                />
-              )}
-            />
-          </Grid>
-          <Grid>
-            <Button
-              variant="contained"
-              disabled={!selecetd1}
-              color="primary"
-              component="span"
-              style={{ marginTop: 10, marginLeft: 240 }}
-              // onClick={() => handlesuperadmincreation()}
-            >
-              {" "}
-              Create Super Admin
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-      <Box py={2} px={2}>
-        <Grid container xl={12} justifyContent="space-between" spacing={3}>
-          <Grid item xs={12}>
-            <Typography
-              gutterBottom
-              align="center"
-              variant="h6"
-              component="h2"
-              className={classes.Object_Type}
-            >
-              Super Admin List
-            </Typography>
-            <Table className={classestable.table} aria-label="customized table">
-              <TableHead className={classes.primary}>
-                <TableRow>
-                  <StyledTableCell align="left">User Name</StyledTableCell>
-                  <StyledTableCell align="left">User Email</StyledTableCell>
-                  <StyledTableCell align="left">Actions</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {isData ? (
-                  <>
-                    {superadminlist.map((item) => (
-                      <StyledTableRow container>
-                        <StyledTableCell item xl={8}>
-                          <div className={classes.texttablecell}>
-                            {item.User_Name}
-                          </div>
-                        </StyledTableCell>
-                        <StyledTableCell item xl={8}>
-                          <div className={classes.texttablecell}>
-                            {item.Email}
-                          </div>
-                        </StyledTableCell>
-                        <StyledTableCell item xl={8}>
-                          <Button
-                            type="button"
-                            size="small"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            style={{
-                              marginTop: "9px",
-                              fontSize: "9px",
-                              marginBottom: "8px",
-                            }}
-                            // onClick={() => handledeletesuperadmin(item.Email)}
-                          >
-                            Delete
-                          </Button>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    <StyledTableRow container>
-                      <StyledTableCell align="center"></StyledTableCell>
-                      <StyledTableCell align="center">
-                        No Requests
-                      </StyledTableCell>
-                      <StyledTableCell align="center"></StyledTableCell>
-                    </StyledTableRow>
-                  </>
-                )}
-              </TableBody>
-            </Table>
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box py={1} px={1}>
-        <Grid container direction="row" justifyContent="center">
-          <Grid item>
-            <Typography variant="h6">User Admin Creation</Typography>
-          </Grid>
-        </Grid>
-      </Box>
-      <Box py={2} px={2}>
-        <Grid container direction="row" justifyContent="center" spacing={1}>
-          <Grid item>
-            <StyledAutocomplete
-              size="small"
-              id="grouped-demo"
-              className={classes.inputRoottype}
-              options={userslist}
-              groupBy={""}
-              getOptionLabel={(option) => option.email}
-              style={{ width: 300, marginLeft: 100 }}
-              onChange={(e, v) => handleuseremail1(v)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="username/email"
-                  variant="outlined"
-                  InputLabelProps={{
-                    className: classes.floatingLabelFocusStyle,
-                    shrink: true,
-                  }}
-                />
-              )}
-            />
-          </Grid>
-          <Grid>
-            <Button
-              variant="contained"
-              // disabled={!selecetd1}
-              color="primary"
-              component="span"
-              style={{ marginTop: 10, marginLeft: 240 }}
-              // onClick={() => handleuseradmincreation()}
-            >
-              {" "}
-              Create User Admin
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-
-
-     
-          
-          
-
+      
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog
         confirmDialog={confirmDialog}

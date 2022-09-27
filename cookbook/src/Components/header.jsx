@@ -330,112 +330,7 @@ export default function ClippedDrawer({ children }) {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openview = Boolean(anchorEl);
-  const [menuList, setmenuList] = React.useState([
-    {
-      Label: "PROCEDURE",
-      SubMenu: [{ Feature_Name: "fp1" }, { Feature_Name: "fp2" }],
-      Sub_Objects_List: [
-        {
-          Label: "Sub_PROCEDURE_1",
-          SubMenu: [{ Feature_Name: "sub_fp1" }, { Feature_Name: "sub_fp2" }],
-          Sub_Objects_List: [
-            {
-              Label: "Sub_PROC_1",
-              SubMenu: [
-                { Feature_Name: "sub_fp1_s" },
-                { Feature_Name: "sub_fp2_s" },
-              ],
-              Sub_Objects_List: [
-                {
-                  Label: "Sub_PROC_11",
-                  SubMenu: [
-                    { Feature_Name: "sub_fp11_s" },
-                    { Feature_Name: "sub_fp21_s" },
-                  ],
-                  Sub_Objects_List: [],
-                  Admin_Flag: 1,
-                },
-              ],
-              Admin_Flag: 1,
-            },
-            {
-              Label: "Sub_PROC_2",
-              SubMenu: [
-                { Feature_Name: "sub_fp3_s" },
-                { Feature_Name: "sub_fp4_s" },
-              ],
-              Sub_Objects_List: [],
-              Admin_Flag: 1,
-            },
-          ],
-          Admin_Flag: 1,
-        },
-
-        {
-          Label: "Sub_PROCEDURE_2",
-          SubMenu: [{ Feature_Name: "sub_fp5" }, { Feature_Name: "sub_fp6" }],
-          Sub_Objects_List: [],
-          Admin_Flag: 1,
-        },
-
-        {
-          Label: "Sub_PROCEDURE_3",
-          SubMenu: [{ Feature_Name: "sub_fp7" }, { Feature_Name: "sub_fp8" }],
-          Sub_Objects_List: [],
-          Admin_Flag: 1,
-        },
-      ],
-      Admin_Flag: 1,
-    },
-
-    {
-      Label: "FUNCION",
-      SubMenu: [{ Feature_Name: "ff1" }, { Feature_Name: "ff2" }],
-      Sub_Objects_List: [
-        {
-          Label: "Sub_FUNCTION_1",
-          SubMenu: [{ Feature_Name: "sub_ff1" }, { Feature_Name: "sub_ff2" }],
-          Sub_Objects_List: [],
-          Admin_Flag: 1,
-        },
-
-        {
-          Label: "Sub_FUNCTION_2",
-          SubMenu: [{ Feature_Name: "sub_ff1" }, { Feature_Name: "sub_ff2" }],
-          Sub_Objects_List: [
-            {
-              Label: "Sub_FUNC_1",
-              SubMenu: [
-                { Feature_Name: "sub_ff1_s" },
-                { Feature_Name: "sub_ff2_s" },
-              ],
-              Sub_Objects_List: [],
-              Admin_Flag: 1,
-            },
-
-            {
-              Label: "Sub_FUNC_2",
-              SubMenu: [
-                { Feature_Name: "sub_ff1_s" },
-                { Feature_Name: "sub_ff2_s" },
-              ],
-              Sub_Objects_List: [],
-              Admin_Flag: 1,
-            },
-          ],
-          Admin_Flag: 1,
-        },
-      ],
-      Admin_Flag: 1,
-    },
-
-    {
-      Label: "PACKAGE",
-      SubMenu: [{ Feature_Name: "fpa1" }, { Feature_Name: "fpa2" }],
-      Sub_Objects_List: [],
-      Admin_Flag: 1,
-    },
-  ]);
+  const [menuList, setmenuList] = React.useState([]);
   const [dropdown, setdropdown] = React.useState({
     name: "Oracle TO Postgres",
   });
@@ -456,6 +351,41 @@ export default function ClippedDrawer({ children }) {
   }, []);
 
   
+
+  React.useEffect(() => {
+      let conf = {
+        headers: {
+          Authorization: "Bearer " + config.ACCESS_TOKEN(),
+        },
+      };
+      let body = {
+        "Migration_Name":"Oracle To Postgres",
+        "Project_Version_Id":"1",
+        "User_Email":sessionStorage.getItem('uemail')
+
+      };
+      const form = new FormData();
+      Object.keys(body).forEach((key) => {
+        form.append(key, body[key]);
+      });
+
+      axios
+        .post(`${config.API_BASE_URL()}/api/menu_view_creation/`, form, conf)
+        .then(
+          (res) => {
+            console.log(res)
+            setmenuList(res.data)
+          },
+          (error) => {
+            setNotify({
+              isOpen: true,
+              message: "Something Went Wrong Please try Again",
+              type: "error",
+            });
+          }
+        );
+    
+  }, []);
 
   React.useEffect(() => {
     if (headerValue?.title) {
@@ -575,7 +505,7 @@ export default function ClippedDrawer({ children }) {
     
   };
   const handlefeature = (v) => {
-    console.log(v, ' =======')
+    // console.log(v, ' =======')
     dispatch(ActionMenu.selectedMenutlist(v))
     // console.log(v," ===========")
   };
@@ -896,8 +826,8 @@ export default function ClippedDrawer({ children }) {
                         className={classes.inputRoottype}
                         options={menuList}
                         groupBy={""}
-                        defaultValue={{ Label: menuList[0].Label }}
-                        getOptionLabel={(option) => option.Label}
+                        defaultValue={{ Object_Type: menuList[0].Object_Type }}
+                        getOptionLabel={(option) => option.Object_Type}
                         style={{ width: 230, height: 50 }}
                         onChange={(e, v) => handlefeature(v)}
                         renderInput={(params) => (
