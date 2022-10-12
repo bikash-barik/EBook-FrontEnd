@@ -1,3 +1,4 @@
+// import { useState } from "react";
 import { Box, Grid, TextField, Typography, styled } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import ConfirmDialog from "../../Features/Notifications/ConfirmDialog";
@@ -26,8 +27,10 @@ import Notification from "../Notifications/Notification";
 import Menuaction from "../../Redux/actions/Menuaction";
 
 import { Container, Modal, Snackbar } from "@material-ui/core";
+import Temp from "./Temp";
 
 const useStylestable = makeStyles((theme) => ({
+  
   table: {
     width: "96%",
     // width:10
@@ -173,6 +176,8 @@ const StyledTableRow = withStyles((theme) => ({
 
 
 export default function SuperadminFunction() {
+  const [pathString,setPathString] = useState('');
+  const [ showList,setShowList] = useState('hidden');
   const classes = useStyles();
   const dispatch = useDispatch();
   const classestable = useStylestable();
@@ -188,7 +193,18 @@ export default function SuperadminFunction() {
     headerValue,
     project_version,
   } = useSelector((state) => state.dashboardReducer);
- 
+  
+  const updatePath =(new_path)=>{
+     setPathString(new_path);
+  }
+  const showListChnage =()=>{
+    if(showList === 'hidden'){
+      setShowList('block');
+    }
+    else{
+      setShowList('hidden');
+    }
+  }
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -493,99 +509,21 @@ export default function SuperadminFunction() {
               >
                 Create Object Type
               </Typography>
-              {/* <form className={classes.form} autoComplete="off"> */}
-
-              <Grid item xs={4} >
-                <StyledAutocomplete
-                  size="small"
-                  id="grouped-demo"
-                  className={classes.inputRoottype}
-                  // options={migtypelist}
-                  groupBy={""}
-                  // defaultValue={{ title: "Oracle TO Postgres" }}
-                  getOptionLabel={(option) => option.Migration_TypeId}
-                  style={{ width: 400, marginBottom: '20px', height: '60px' }}
-                  // onChange={(e, v) => setMigtype_create(v?.Migration_TypeId)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Migration type"
-                      variant="outlined"
-                      InputLabelProps={{
-                        className: classes.floatingLabelFocusStyle,
-                        shrink: true,
-                      }}
-
-                    />
-                  )}
-                />
-              </Grid>
-
-              <div className={classes.item}>
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Object Type"
-                  style={{ width: 400, marginBottom: '20px' }}
-                  multiline
-                  rows={1}
-                  // value ={row.Keywords}
-                  // onChange={(e) => setObjtype_create(e.target.value)}
-                  name="Keywords"
-                  // defaultValue={edithandle.Keywords}
-                  // helperText={featurenamemsg}
-                  // value={edithandle.Keywords}
-                  className={classes.textField}
-                  // helperText="Some important text"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-
-
-                />
+              
+              <div  onClick={showListChnage}  className="w-full  mb-5">
+                <button onClick={()=>updatePath('maindashboard')} className="border w-full border-blue-500 px-5 py-2.5 text-left">Main dropDown </button>
               </div>
-              <div className={classes.item}>
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Object Type String"
-                  style={{ width: 400, marginBottom: '20px' }}
-                  multiline
-                  rows={1}
-                  // value ={row.Keywords}
-                  // onChange={(e) => setObjtype_create(e.target.value)}
-                  name="Keywords"
-                  // defaultValue={edithandle.Keywords}
-                  // helperText={featurenamemsg}
-                  // value={edithandle.Keywords}
-                  className={classes.textField}
-                  // helperText="Some important text"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-
-
-                />
+              <div className={`${showList} w-full py-2`}>
+              <Temp curpath={'subpath1'} subpaths={['button1','button2','button3']} updatePath={updatePath} />
+              <Temp curpath={'subpath2'} subpaths={['button4','button5','button6']} updatePath={updatePath} />
+              <Temp curpath={'subpath3'} subpaths={[]} updatePath={updatePath} />
+              
               </div>
-
-              <div className={classes.item} >
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  style={{ marginRight: 20, marginLeft: 100 }}
-                  onClick={() => handleObjectypeCreate()}
-                >
-                  Create
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => setOpen(false)}
-                >
-                  Cancel
-                </Button>
+              
+              <div className="w-full ">
+                <h1 className="font-semibold">Path :</h1>
+               <p className="w-full border border-blue px-5 p-2.5">{pathString}</p> 
               </div>
-              {/* </form> */}
             </Container>
           </Modal>
       </Box>
