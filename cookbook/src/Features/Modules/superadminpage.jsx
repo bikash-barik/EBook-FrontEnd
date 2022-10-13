@@ -27,8 +27,10 @@ import Notification from "../Notifications/Notification";
 import Menuaction from "../../Redux/actions/Menuaction";
 
 import { Container, Modal, Snackbar } from "@material-ui/core";
-import Temp from "./Temp";
-
+// import Temp from "./SubDropDown";
+import {IoMdArrowDropright} from 'react-icons/io';
+import dropdownApi from "../../APIS/dropdownApi";
+import DropDown from "../../Components/DropDown";
 const useStylestable = makeStyles((theme) => ({
   
   table: {
@@ -177,13 +179,22 @@ const StyledTableRow = withStyles((theme) => ({
 
 export default function SuperadminFunction() {
   const [pathString,setPathString] = useState('');
-  const [ showList,setShowList] = useState('hidden');
+  // const [ showList,setShowList] = useState('hidden');
   const classes = useStyles();
   const dispatch = useDispatch();
   const classestable = useStylestable();
   const [open1, setOpen1] = useState(false);
   const [open, setOpen] = useState(false);
   const [openAlert,setOpenAlert] = useState(false);
+  const[showSublist,setShowList] = useState('');
+  const showSublistAction = (sublist) =>{
+      if(showSublist === sublist){
+          setShowList('');
+      }else{
+          setShowList(sublist);
+      }
+      
+  }
   const {
     details,
     createFeature,
@@ -197,13 +208,9 @@ export default function SuperadminFunction() {
   const updatePath =(new_path)=>{
      setPathString(new_path);
   }
-  const showListChnage =()=>{
-    if(showList === 'hidden'){
-      setShowList('block');
-    }
-    else{
-      setShowList('hidden');
-    }
+  const updatePath3 = (new_path)=>{
+    console.log(new_path+" we in 3")
+    setPathString(new_path);
   }
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -510,19 +517,21 @@ export default function SuperadminFunction() {
                 Create Object Type
               </Typography>
               
-              <div  onClick={showListChnage}  className="w-full  mb-5">
-                <button onClick={()=>updatePath('maindashboard')} className="border w-full border-blue-500 px-5 py-2.5 text-left">Main dropDown </button>
-              </div>
-              <div className={`${showList} w-full py-2`}>
-              <Temp curpath={'subpath1'} subpaths={['button1','button2','button3']} updatePath={updatePath} />
-              <Temp curpath={'subpath2'} subpaths={['button4','button5','button6']} updatePath={updatePath} />
-              <Temp curpath={'subpath3'} subpaths={[]} updatePath={updatePath} />
-              
-              </div>
+              {
+                dropdownApi.map((curElem,index)=>{
+                  return (
+                    <>
+                    <div key={index} onClick={()=>showSublistAction(curElem.Object_Type)}>
+                    <DropDown Object_Type={curElem.Object_Type} Sub_Objects={curElem.Sub_Objects} updatePath={updatePath}  showSublist={showSublist} />
+                    </div>
+                    </>
+                  )
+                })
+              }
               
               <div className="w-full ">
                 <h1 className="font-semibold">Path :</h1>
-               <p className="w-full border border-blue px-5 p-2.5">{pathString}</p> 
+               <p className="w-full border px-5 h-10 py-2 border-gray-300 border-dashed shadow-sm ">{pathString}</p> 
               </div>
             </Container>
           </Modal>

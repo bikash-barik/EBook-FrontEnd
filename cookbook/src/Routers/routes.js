@@ -25,7 +25,7 @@ import ResetPasword from '../Auth/ResetPassword';
 import { useHistory } from 'react-router-dom';
 import FeatureApprovals from '../Features/Modules/FeatureApprovals'
 import tree from '../Components/treeview3'
-import Temp from '../Features/Modules/Temp';
+import Temp from '../Features/Modules/SubDropDown';
 
 
 
@@ -49,7 +49,7 @@ const Routing = () => {
                 <Route path="/resendemail" component={ResendEmail} />
                 <Route path="/resetpassword" component={ResetPasword} />
                 <Route path="/tree" component={tree} />
-                <Route path='/temp' component = {Temp}/>
+                {/* <Route path='/temp' component = {Temp}/> */}
                 {/* <Route path="*" component={PageNotFound} /> */}
                 <MenuAppBar>
                     <ProtectedRoute path="/dashboard" component={Home} />
